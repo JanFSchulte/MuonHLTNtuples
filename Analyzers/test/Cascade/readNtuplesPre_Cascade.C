@@ -28,8 +28,11 @@ void printProgBar(int);
 
 std::string L1filter      =  "hltL1fL1sMu22or25L1Filtered0::TEST"; 
 std::string L2filter      = "hltL2fL1sMu22or25L1f0L2Filtered10Q::TEST";
-std::string L3filter      =  "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::TEST"; 
-std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
+//std::string L3filter      =  "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::TEST"; 
+std::string L3filter      =  "hltL3fL1sMu22Or25f0TkFiltered27Q::TEST"; 
+std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p09::HLT";
+//std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT"; DATA
+//std::string isofilterTag  = "hltL3fL1sMu22Or25L1f0Tkf27QL3trkIsoFiltered0p07::HLT";
 
 double pt_bins[17]  = { 5, 7, 9, 12, 16,  20 ,  24 ,  27 ,   30,   35,   40,   45,   50,  60, 70 ,  90, 150 };
 double dz_bins[11]  = { -15., -8., -6., -4., -2.,  0.,  2.,  4.,   6.,   8.,  15.};
@@ -40,7 +43,7 @@ double offlineIsoCut = 0.15;
 // ******************************************
 //                                          *
 //                                          *
-std::string hltname        = "HLT_IsoMu27_v10"; 
+std::string hltname        = "HLT_IsoMu27_v8"; 
 std::string thepassfilter  = L3filter;
 std::string the2016filter  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
 std::string theprobefilter = L1filter; 
@@ -49,7 +52,8 @@ float offlinePtCut         = 30.;
 //                                          *
 // ******************************************
 
-void readNtuplesPre_Cascade(TString inputfilename="/afs/cern.ch/user/s/sferrere/private/CMSSW_9_2_7/src/workspace/cascade/JSON_08_16/result.root", std::string effmeasured="Cascade_alignment"){
+//void readNtuplesPre_Cascade(TString inputfilename="../../../Tools/muonNtuple_SingleMuon_cascade_DataRunF.root", std::string effmeasured="Cascade_alignment"){
+void readNtuplesPre_Cascade(TString inputfilename="../../../Tools/muonNtuple_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Cascade.root", std::string effmeasured="Cascade_alignment"){
 
   bool doingL1 = thepassfilter.find("L1fL1") != std::string::npos; 
 
@@ -195,7 +199,6 @@ void readNtuplesPre_Cascade(TString inputfilename="/afs/cern.ch/user/s/sferrere/
       for (int imu = 0; imu < nmuons; imu++){ 
 	// select the tag muon        
 	if (! selectTagMuon(ev -> muons.at(imu), tagiso)) continue;
-
 	if (! matchMuon(ev -> muons.at(imu), ev -> hltTag.objects, isofilterTag)) continue;
 	tagMuonPt -> Fill ( ev -> muons.at(imu).pt) ; 
 
@@ -205,15 +208,13 @@ void readNtuplesPre_Cascade(TString inputfilename="/afs/cern.ch/user/s/sferrere/
 
 	  // select the probe muon
 	  if (!selectProbeMuon(ev -> muons.at(jmu), ev -> muons.at(imu), dimuon_mass)) continue;
-	  // cout<< "probe muon"<< endl;
+	  //cout<< "probe muon"<< endl;
 
 	  if (!doingL1 && !(matchMuon(ev -> muons.at(jmu), ev -> hlt.objects, theprobefilter))) continue;
-
+          //cout << "probe filter" << endl;
 	  //PRE FILTER
 	  //if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons) || matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons)) pass=true;
-
 	  if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons)) pass=true;
-
 	  muonPtTurnOn -> Fill( pass, ev -> muons.at(jmu).pt ); 
  
 	  // now require pT cut: 
@@ -463,8 +464,8 @@ bool matchMuon(MuonCand mu, std::vector<HLTObjCand> toc, std::string tagFilterNa
   float minDR = 0.1; 
   if (tagFilterName.find("L1fL1") != std::string::npos) minDR = 1.0;
   float theDR = 100;
-  for ( std::vector<HLTObjCand>::const_iterator it = toc.begin(); it != toc.end(); ++it ) { 
-    if ( it->filterTag.compare(tagFilterName) == 0) { 
+  for ( std::vector<HLTObjCand>::const_iterator it = toc.begin(); it != toc.end(); ++it ) {
+    if ( it->filterTag.compare(tagFilterName) == 0) {
       theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi); 
       if (theDR < minDR){
         minDR = theDR;
@@ -567,6 +568,7 @@ bool matchMuonWithL3(MuonCand mu, std::vector<HLTMuonCand> L3cands){
   float theDR = 100;
   for ( std::vector<HLTMuonCand>::const_iterator it = L3cands.begin(); it != L3cands.end(); ++it ) { 
     theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi); 
+    cout << theDR << endl;
     if (theDR < minDR){ 
       minDR = theDR;
       match = true;

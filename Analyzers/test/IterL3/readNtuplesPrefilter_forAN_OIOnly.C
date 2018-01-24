@@ -82,11 +82,12 @@ float offlinePtCut         = 28.;
 //                                          *
 // ******************************************
 
-void readNtuplesPrefilter_forAN_OIOnly(TString inputfilename="results.root", int flavor=Sig::Prompt,  std::string effmeasured="IterL3_NOHP_NOL1"){
+void readNtuplesPrefilter_forAN_OIOnly(TString inputfilename="../../../Tools/muonNtuple_SingleMuon_iterL3_DataRunF.root", int flavor=Sig::Prompt,  std::string effmeasured="IterL3_NOHP_NOL1"){
 
   bool doingL1 = thepassfilter.find("L1fL1") != std::string::npos; 
 
   TFile* outfile = TFile::Open(Form("%s_efficiency_pre.root", effmeasured.c_str()),"RECREATE");
+  //TFile* outfile = TFile::Open(Form("../../../Tools/muonNtuple_SingleMuon_iterL3_DataRunF.root","RECREATE");
   std::cout << "output file: " << outfile -> GetName() << std::endl;
 
   //Create histograms  

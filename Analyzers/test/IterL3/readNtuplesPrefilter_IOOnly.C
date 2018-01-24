@@ -23,14 +23,14 @@ bool selectMuon     (MuonCand);
 bool matchMuon      (MuonCand, std::vector<HLTObjCand>, std::string);
 //HLTMuonCand  matchL3        (MuonCand, std::vector<HLTMuonCand>);
 //L1MuonCand   matchL1        (MuonCand, std::vector<L1MuonCand>);
-bool  matchMuonWithL3 (MuonCand, std::vector<HLTMuonCand>);
+bool  matchMuonWithL3 (MuonCand, std::vector<HltTrackCand>);
 void printProgBar(int);
 
 //Filters for each level
 std::string L1filter      =  "hltL1fL1sMu22or25L1Filtered0::TEST"; 
 std::string L2filter      = "hltL2fL1sMu22or25L1f0L2Filtered10Q::TEST";
 std::string L3filter      =  "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::TEST"; 
-std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p09::HLT";
+std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
 
 double pt_bins[17]  = { 5, 7, 9, 12, 16,  20 ,  24 ,  27 ,   30,   35,   40,   45,   50,  60, 70 ,  90, 150 };
 double dz_bins[11]  = { -15., -8., -6., -4., -2.,  0.,  2.,  4.,   6.,   8.,  15.};
@@ -50,8 +50,7 @@ float offlinePtCut         = 30.;
 //                                          *
 // ******************************************
 
-//void readNtuplesPrefilter_OIOnly(TString inputfilename="/afs/cern.ch/user/s/sferrere/private/CMSSW_9_2_7/src/workspace/newIterL3/JSON_16_08/hlt_92X_GT92X_dataRun2_HLT_v4_HitlessAndHits_FixedNavigation_ResetSeeds_HitsToTry1Layer5_muonNtuple_SingleMuon_Run2017C_ZMu-PromptReco-v2.root", std::string effmeasured="Navigation"){
-void readNtuplesPrefilter_OIOnly(TString inputfilename="../../../Tools/muonNtuple_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_IterL3.root", std::string effmeasured="Navigation"){
+void readNtuplesPrefilter_IOOnly(TString inputfilename="../../../Tools/muonNtuple_SingleMuon_iterL3_DataRunF.root", std::string effmeasured="Navigation"){
 
   bool doingL1 = thepassfilter.find("L1fL1") != std::string::npos; 
 
@@ -227,7 +226,7 @@ void readNtuplesPrefilter_OIOnly(TString inputfilename="../../../Tools/muonNtupl
 	  if (!doingL1 && !(matchMuon(ev -> muons.at(jmu), ev -> hlt.objects, theprobefilter))) continue;
 
 	  //PREFILTER
-	  if (matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons)) pass = true; 
+	  if (matchMuonWithL3(ev->muons.at(jmu),ev->hltTrackIOL2)) pass = true; 
 
 	  muonPtTurnOn -> Fill( pass, ev -> muons.at(jmu).pt ); 
  
@@ -572,12 +571,12 @@ bool selectProbeMuon(MuonCand mu, MuonCand tagMu, TH1F* dimuon_mass){
 //}
 
 
-bool matchMuonWithL3(MuonCand mu, std::vector<HLTMuonCand> L3cands){
+bool matchMuonWithL3(MuonCand mu, std::vector<HltTrackCand> L3cands){
 
   bool match = false;
   float minDR = 0.1;
   float theDR = 100;
-  for ( std::vector<HLTMuonCand>::const_iterator it = L3cands.begin(); it != L3cands.end(); ++it ) { 
+  for ( std::vector<HltTrackCand>::const_iterator it = L3cands.begin(); it != L3cands.end(); ++it ) { 
     theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi); 
     if (theDR < minDR){ 
       minDR = theDR;
