@@ -8,8 +8,8 @@ TStyle *gStyle = new TStyle("gStyle","Style for P-TDR");
 SetStyle st;
 st.SetPars(gStyle);
 
-TFile *f1=new TFile("../2018Q12_PostFilter_L1EffwrtOffline.root","READ");
-TFile *f2=new TFile("../2018v2_PostFilter_L1EffwrtOffline.root","READ");
+TFile *f1=new TFile("../L1EffFullStats_PostFilter_L1EffwrtOffline.root","READ");
+TFile *f2=new TFile("../L1EffFullStatsQ8_PostFilter_L1EffwrtOffline.root","READ");
 
 
 //TFile *f1=new TFile("../PromptRecoA1_PostFilter_L1EffwrtOffline_L1Qua12_pt22.root","READ");
@@ -177,7 +177,7 @@ gPad->Update();
 leg_1D[0]->Draw();
 
  gPad->RedrawAxis();
-latex->DrawLatex(0.95, 0.96, "2.5 fb^{-1} (2018) (13 TeV)");
+latex->DrawLatex(0.95, 0.96, "5 fb^{-1} (2018) (13 TeV)");
 latexCMS->DrawLatex(0.15,0.955,"CMS");
 latexCMSExtra->DrawLatex(0.275,0.955,"Preliminary");
 
@@ -211,7 +211,7 @@ graph2B->GetXaxis()->SetRangeUser(-2.4,2.4);
 gPad->Update();
 leg_1D[1]->Draw();
  gPad->RedrawAxis();
-latex->DrawLatex(0.95, 0.96, "2.5 fb^{-1} (2018) (13 TeV)");
+latex->DrawLatex(0.95, 0.96, "5 fb^{-1} (2018) (13 TeV)");
 latexCMS->DrawLatex(0.15,0.955,"CMS");
 latexCMSExtra->DrawLatex(0.275,0.955,"Preliminary");
 c2->SaveAs("Eta_L1EffwrtOffline.pdf");
@@ -239,7 +239,7 @@ graph2C->GetXaxis()->SetRangeUser(-3.14,3.14);
 gPad->Update();
 leg_1D[2]->Draw();
  gPad->RedrawAxis();
-latex->DrawLatex(0.95, 0.96, "2.5 fb^{-1} (2018) (13 TeV)");
+latex->DrawLatex(0.95, 0.96, "5 fb^{-1} (2018) (13 TeV)");
 latexCMS->DrawLatex(0.15,0.955,"CMS");
 latexCMSExtra->DrawLatex(0.275,0.955,"Preliminary");
 c3->SaveAs("Phi_L1EffwrtOffline.pdf");
@@ -272,7 +272,7 @@ graph2D->GetXaxis()->SetRangeUser(0,60);
 gPad->Update();
 leg_1D[3]->Draw();
  gPad->RedrawAxis();
-latex->DrawLatex(0.95, 0.96, "2.5 fb^{-1} (2018) (13 TeV)");
+latex->DrawLatex(0.95, 0.96, "5 fb^{-1} (2018) (13 TeV)");
 latexCMS->DrawLatex(0.15,0.955,"CMS");
 latexCMSExtra->DrawLatex(0.275,0.955,"Preliminary");
 c4->SaveAs("nVtx_L1EffwrtOffline.pdf");

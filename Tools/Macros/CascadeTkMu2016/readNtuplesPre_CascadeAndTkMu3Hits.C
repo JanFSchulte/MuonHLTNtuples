@@ -186,7 +186,7 @@ float offlinePtCut         = 24.;
 //                                          *
 // ******************************************
 
-void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_",bool isMC=false){
+void readNtuplesPre_CascadeAndTkMu3Hits(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_",bool isMC=false){
 
   ///eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/NtupleTMP.root
   ///eos/uscms/store/user/bmahakud/TestCascade_LPC_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TestCascade_LPC_v3/181203_142416/0000/muonNtupleCasNew.root
@@ -865,6 +865,7 @@ bool selectProbeMuon(MuonCand mu, MuonCand tagMu, TH1F* dimuon_mass){
   if (!( mu.pt          > 0  )) return false; 
   if (!( fabs(mu.eta)  < 2.4 )) return false; 
   if (!( mu.isTight    == 1  )) return false; 
+  if (!( mu.innerpixelHits    >= 3  )) return false; 
   if (mu.charge * tagMu.charge > 0) return false;
   //add isolation cut
   float offlineiso04 = mu.chargedDep_dR04 + std::max(0., mu.photonDep_dR04 + mu.neutralDep_dR04 - 0.5*mu.puPt_dR04);

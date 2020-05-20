@@ -24,6 +24,7 @@ bool matchMuon      (MuonCand, std::vector<HLTObjCand>, std::string);
 //HLTMuonCand  matchL3        (MuonCand, std::vector<HLTMuonCand>);
 //L1MuonCand   matchL1        (MuonCand, std::vector<L1MuonCand>);
 bool  matchMuonWithL3 (MuonCand, std::vector<HLTMuonCand>);
+bool  matchMuonWithTrack (MuonCand, std::vector<HltTrackCand>);
 void printProgBar(int);
 
 //std::string L1filter      =  "hltL1fL1sMu22Or25L1Filtered0::TEST"; 
@@ -186,7 +187,7 @@ float offlinePtCut         = 24.;
 //                                          *
 // ******************************************
 
-void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_",bool isMC=false){
+void readNtuplesPre_CascadeAndTkMu_Tracking(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_",bool isMC=false){
 
   ///eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/NtupleTMP.root
   ///eos/uscms/store/user/bmahakud/TestCascade_LPC_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TestCascade_LPC_v3/181203_142416/0000/muonNtupleCasNew.root
@@ -410,7 +411,7 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
           bool passhlt=false;
           bool passTkMu=false;
           if(matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons))passhlt=true;
-          if(matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons))passTkMu=true;
+          if(matchMuonWithTrack(ev->muons.at(jmu),ev->hltTrackIOL1))passTkMu=true;
 
 	  //if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons) || matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons)) pass=true;
           if(passTkMu  || passhlt)pass=true;
@@ -929,7 +930,20 @@ bool matchMuonWithL3(MuonCand mu, std::vector<HLTMuonCand> L3cands){
   return match;
 }
 
+bool matchMuonWithTrack(MuonCand mu, std::vector<HltTrackCand> L3cands){
 
+  bool match = false;
+  float minDR = 0.1;
+  float theDR = 100;
+  for ( std::vector<HltTrackCand>::const_iterator it = L3cands.begin(); it != L3cands.end(); ++it ) { 
+    theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi); 
+    if (theDR < minDR){ 
+      minDR = theDR;
+      match = true;
+    }
+  }
+  return match;
+}
 //L1MuonCand matchL1(MuonCand mu, std::vector<L1MuonCand> L1cands){
 
 //  bool match = false;

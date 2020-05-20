@@ -18,7 +18,7 @@
 double muonmass = 0.10565837;
 
 bool selectTagMuon  (MuonCand, TH1F* );
-bool selectProbeMuon(MuonCand, MuonCand, TH1F* );
+bool selectProbeMuon(MuonCand, std::vector<GenParticleCand> );
 bool selectMuon     (MuonCand);
 bool matchMuon      (MuonCand, std::vector<HLTObjCand>, std::string);
 //HLTMuonCand  matchL3        (MuonCand, std::vector<HLTMuonCand>);
@@ -31,17 +31,12 @@ void printProgBar(int);
 //std::string L3filter      =  "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::TEST"; 
 //std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p09::HLT";
 /// TAG-DEFINITION: 
-std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p09::HLT";
+std::string isofilterTag  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
 
 /// for PROMPT-MUONS   (close-by and far-away) 
-//std::string L1filter      = "hltL1fL1sMu22Or25L1Filtered0::MYHLT"; 
-//std::string L2filter      = "hltL2fL1sMu22or25L1f0L2Filtered10Q::MYHLT";
-//std::string L3filter      = "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::MYHLT"; 
-//std::string L1filter      = "hltL1fL1sMu22Or25L1Filtered0::HLT";
-std::string L1filter      = "hltL1fL1sMu22Or25L1Filtered0::TEST";
+std::string L1filter      = "hltL1fL1sMu22or25L1Filtered0::TEST"; 
 std::string L2filter      = "hltL2fL1sMu22or25L1f0L2Filtered10Q::TEST";
 std::string L3filter      = "hltL3fL1sMu22Or25L1f0L2f10QL3Filtered27Q::TEST"; 
-
 
 
 double pt_bins[20]  = { 5, 7, 9, 12, 16,  20 ,  24 ,  27 ,   30,   35,   40,   45,   50,  60, 70 ,  90, 150, 250,500,1000 };
@@ -50,6 +45,7 @@ double eta_bins[16] = {-2.4, -2.1, -1.6, -1.2, -1.04, -0.9, -0.3, -0.2,  0.2, 0.
 double iso_bins[12] = { 0  , 0.02, 0.04, 0.06, 0.08,  0.1, 0.12, 0.16, 0.2, 0.3, 0.6, 1   };
 double offlineIsoCut = 0.15;
 
+
 double weights[120] = {
 0,
 0,
@@ -57,121 +53,122 @@ double weights[120] = {
 0,
 0,
 0,
+4226.67,
+1823.04,
+787.477,
+486.122,
+211.872,
+118.316,
+63.4982,
+37.9888,
+23.0261,
+14.9799,
+10.2863,
+7.27979,
+5.34811,
+4.10273,
+3.26837,
+2.64915,
+2.23506,
+1.93052,
+1.69373,
+1.51683,
+1.36889,
+1.26224,
+1.16777,
+1.08684,
+1.01703,
+0.939873,
+0.876546,
+0.810688,
+0.748066,
+0.685921,
+0.625705,
+0.571451,
+0.516831,
+0.471159,
+0.42725,
+0.387711,
+0.351214,
+0.32003,
+0.290533,
+0.267097,
+0.248765,
+0.234077,
+0.2196,
+0.205689,
+0.197416,
+0.191746,
+0.183693,
+0.175746,
+0.175846,
+0.176275,
+0.173514,
+0.172328,
+0.175078,
+0.181157,
+0.182818,
+0.177181,
+0.1876,
+0.196788,
+0.192088,
+0.197586,
+0.213389,
+0.212861,
+0.219671,
+0.216015,
+0.237371,
+0.227794,
+0.216879,
+0.261989,
+0.28839,
+0.283026,
+0.264886,
+0.267633,
+0.315637,
+0.295262,
+0.266044,
+0.337673,
+0.35408,
+0.311411,
+0.369371,
+0.394094,
+0.382813,
+0.290877,
+0.582273,
+0.413041,
+0.433895,
+0.446835,
+0.618919,
+0.29157,
+0.669854,
+0.714608,
+0.672572,
+0.423471,
+0.63520,
+0.63520,
+0.55436,
+1.3451,
+0.63520,
+0.557742,
+0.680579,
+0.846942,
+0.190562,
+1.5245,
+2.11736,
+0.423471,
+0.879517,
+0.635207,
+1.27041,
+2.85843,
+1.90562,
+2.28674,
 0,
+0.95281,
 0,
-1714.61,
-3015.38,
-971.24,
-451.67,
-201.465,
-125.135,
-79.7378,
-46.8031,
-31.4534,
-20.0849,
-13.861,
-9.47249,
-6.95426,
-4.97503,
-3.77511,
-2.88122,
-2.28987,
-1.83598,
-1.44321,
-1.1823,
-0.980304,
-0.789245,
-0.656171,
-0.536642,
-0.448593,
-0.36624,
-0.30997,
-0.252562,
-0.203605,
-0.168964,
-0.14178,
-0.116938,
-0.0971075,
-0.0803663,
-0.0694599,
-0.0573187,
-0.0489857,
-0.041391,
-0.0353708,
-0.0311511,
-0.0256616,
-0.0224971,
-0.0196526,
-0.0177397,
-0.0151296,
-0.0132056,
-0.0128192,
-0.010311,
-0.0104214,
-0.00987561,
-0.00752808,
-0.00651416,
-0.00614133,
-0.0056952,
-0.00488007,
-0.00547836,
-0.00449886,
-0.00388859,
-0.00309655,
-0.00256534,
-0.00295194,
-0.00272393,
-0.00255815,
-0.00207742,
-0.00233773,
-0.0019378,
-0.00201003,
-0.0011962,
-0.00142139,
-0.00134736,
-0.00204119,
-0.000490341,
-0.00053519,
-0.000605318,
-0.00340198,
-0.00212008,
-0,
-0.000474438,
-0.000618106,
-0.000659933,
-0.00208979,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0.00797919,
-0.00797919,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
+7.62248,
 };
+
 
 
 // ******************************************
@@ -179,14 +176,14 @@ double weights[120] = {
 //                                          *
 std::string hltname        = "HLT_IsoMu27_v10"; 
 std::string thepassfilter  = L3filter;
-std::string the2016filter  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p09::HLT";
+std::string the2016filter  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
 std::string theprobefilter = L1filter; 
 float offlinePtCut         = 24.; 
 //                                          *
 //                                          *
 // ******************************************
 
-void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_",bool isMC=false){
+void readNtuplesPre_CascadeAndTkMu_WJets(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_", bool isMC=false){
 
   ///eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/NtupleTMP.root
   ///eos/uscms/store/user/bmahakud/TestCascade_LPC_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TestCascade_LPC_v3/181203_142416/0000/muonNtupleCasNew.root
@@ -198,7 +195,7 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 
   //Create histograms  
   TH1F* dimuon_mass             = new TH1F("h_dimuon_mass"          ,"dimuon_mass"      , 1500,  0,  150 );
-  TH2F* dimuon_mass_vs_pt_probePass       = new TH2F("h_dimuon_mass_vs_pt_probePass"    ,"dimuon mass vs pt" ,1500,  0,  150, 200, 0, 2000 );
+  TH2F* dimuon_mass_vs_pt_probePass       = new TH2F("h_dimuon_mass_vs_pt_probePass"    ,"dimuon mass vs pt" ,1500,  0,  150, 200, 0,  2000 );
   TH2F* dimuon_mass_vs_pt_probeFail       = new TH2F("h_dimuon_mass_vs_pt_probeFail"    ,"dimuon mass vs pt" ,1500,  0,  150, 200, 0, 2000 );
 
 
@@ -319,8 +316,7 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
   TEfficiency* failingMuonPhi   = new TEfficiency("failingMuonPhi"  ,"failingMuonPhi"   ,   20, -3.2, 3.2);
   TEfficiency* failingMuonEff   = new TEfficiency("failingMuonEff"  ,"failingMuonEff"   ,   1 ,   0., 1.0);
 
-  TH1F* ProbePt                 = new TH1F("h_ProbePt"              ,"ProbeMuonPt"      ,10000,  0, 1000 );
-  
+  TH1F* ProbePt                 = new TH1F("h_ProbePt"              ,"ProbeMuonPt"      ,10000, 0, 1000 );
   TH1F* PassingProbePt          = new TH1F("h_PassingProbePt"       ,"PassingMuonPt"    ,  19,  pt_bins );
   TH1F* PassingProbeEta         = new TH1F("h_PassingProbeEta"      ,"PassingMuonEta"   ,  15, eta_bins );
   TH1F* PassingProbePhi         = new TH1F("h_PassingProbePhi"      ,"PassingMuonPhi"   ,  20, -3.2, 3.2);
@@ -386,281 +382,279 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
       printProgBar((int)(eventNo*100./nentries));
       double weight = 1;
       if (isMC) weight = weights[ev -> nVtx];
-     
+ 
       unsigned int nmuons = ev->muons.size();
       if (nmuons < 2) continue;
       unsigned int nhltmuons = ev->hltmuons.size(); 
     
       //    if (!ev-> hltTag.find(hltname)) continue;
       //nvtx_event-> Fill( ev -> nVtx   ); 
+
       for (int imu = 0; imu < nmuons; imu++){ 
 	// select the tag muon        
 	if (! selectTagMuon(ev -> muons.at(imu), tagiso)) continue;
 	if (! matchMuon(ev -> muons.at(imu), ev -> hltTag.objects, isofilterTag)) continue;
+	if (!selectProbeMuon(ev -> muons.at(imu), ev->genParticles)) continue;
 	tagMuonPt -> Fill ( ev -> muons.at(imu).pt) ; 
-	for (int jmu = 0; jmu < nmuons; jmu++){
-	  bool pass   = false;
-	  bool matchWith2016 = false;
 
-	  // select the probe muon
-	  if (!selectProbeMuon(ev -> muons.at(jmu), ev -> muons.at(imu), dimuon_mass)) continue;
-	
-	  if (!doingL1 && !(matchMuon(ev -> muons.at(jmu), ev -> hlt.objects, theprobefilter))) continue;
+	  if (!doingL1 && !(matchMuon(ev -> muons.at(imu), ev -> hlt.objects, theprobefilter))) continue;
+
 	  //PRE FILTER
+	  bool pass=false;
           bool passhlt=false;
           bool passTkMu=false;
-          if(matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons))passhlt=true;
-          if(matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons))passTkMu=true;
+          if(matchMuonWithL3(ev->muons.at(imu),ev->hltmuons))passhlt=true;
+          if(matchMuonWithL3(ev->muons.at(imu),ev->tkmuons))passTkMu=true;
 
-	  //if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons) || matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons)) pass=true;
+	  //if ( matchMuonWithL3(ev->muons.at(imu),ev->hltmuons) || matchMuonWithL3(ev->muons.at(imu),ev->tkmuons)) pass=true;
           if(passTkMu  || passhlt)pass=true;
 
 
 
 
-	  //	  if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons)) pass=true;
+	  //	  if ( matchMuonWithL3(ev->muons.at(imu),ev->hltmuons)) pass=true;
 
-
-	  if (isMC){
-		  muonPtTurnOn 		-> FillWeighted( pass, weight, ev -> muons.at(jmu).pt ); 
-		  muonPtTurnOn_tkmu     -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).pt );
-	  	  muonPtTurnOn_cascade  -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).pt );
-
-	  }
-	  else{
-		 muonPtTurnOn            -> Fill( pass, ev -> muons.at(jmu).pt ); 
-	  	 muonPtTurnOn_tkmu       -> Fill( passTkMu, ev -> muons.at(jmu).pt );
-	 	 muonPtTurnOn_cascade    -> Fill( passhlt, ev -> muons.at(jmu).pt );
-	  }
-	  // now require pT cut:
-	  ProbePt->Fill(ev -> muons.at(jmu).pt); 
-	  if (ev -> muons.at(jmu).pt < offlinePtCut) continue; 
+	  muonPtTurnOn -> Fill( pass, ev -> muons.at(imu).pt ); 
+	  ProbePt->Fill(ev -> muons.at(imu).pt); 
+	  // now require pT cut: 
+	  if (ev -> muons.at(imu).pt < offlinePtCut) continue; 
 
 	  TLorentzVector mu1, mu2;
 	  mu1.SetPtEtaPhiM (ev->muons.at(imu).pt,ev->muons.at(imu).eta,ev->muons.at(imu).phi, muonmass); 
-	  mu2.SetPtEtaPhiM (ev->muons.at(jmu).pt,ev->muons.at(jmu).eta,ev->muons.at(jmu).phi, muonmass);
+	  mu2.SetPtEtaPhiM (ev->muons.at(imu).pt,ev->muons.at(imu).eta,ev->muons.at(imu).phi, muonmass);
 	  double mumumass = (mu1 + mu2).M();
 
-         if (pass) dimuon_mass_vs_pt_probePass->Fill(mumumass, ev->muons.at(jmu).pt);
-	 else dimuon_mass_vs_pt_probeFail->Fill(mumumass,ev->muons.at(jmu).pt);
+         if (passTkMu) dimuon_mass_vs_pt_probePass->Fill(mumumass, ev->muons.at(imu).pt);
+	 else dimuon_mass_vs_pt_probeFail->Fill(mumumass,ev->muons.at(imu).pt);
 
-	if (isMC){
-
-	  muonPt       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
-	  muonEta      -> FillWeighted( pass, weight, ev -> muons.at(jmu).eta);
-	  muonPhi      -> FillWeighted( pass, weight, ev -> muons.at(jmu).phi);
+	 if(isMC){
+	  muonPt       -> FillWeighted( pass, weight, ev -> muons.at(imu).pt );
+	  muonEta      -> FillWeighted( pass, weight, ev -> muons.at(imu).eta);
+	  muonPhi      -> FillWeighted( pass, weight, ev -> muons.at(imu).phi);
 	  muonEff      -> FillWeighted( pass, weight, 0.5                    );
 
-	  muoninnerPt  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	  muoninnerPt  -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpt);
+	  muoninnerEta -> FillWeighted( pass, weight, ev -> muons.at(imu).innereta); 
+	  muoninnerPhi -> FillWeighted( pass, weight, ev -> muons.at(imu).innerphi); 
 
-	  muonchi2   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
-	  muondxy    -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
-	  muondz     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz);
-	  muonPixHit -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits-> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	  muonchi2   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerchi2 );
+	  muondxy    -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdxy);
+	  muondz     -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdz);
+	  muonPixHit -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelHits);
+	  muonLayHit -> FillWeighted( pass, weight, ev -> muons.at(imu).innerlayerHits);
+	  muonPixLay -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelLayers);
+	  muonValHits-> FillWeighted( pass, weight, ev -> muons.at(imu).innervalidHits);
+
+	  //if (passhlt){
+
+		  muonPt_cascade       -> FillWeighted( passhlt, weight, ev -> muons.at(imu).pt );
+		  muonEta_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(imu).eta);
+		  muonPhi_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(imu).phi);
+		  muonEff_cascade      -> FillWeighted( passhlt, weight, 0.5                    );
+
+		  muoninnerPt_cascade  -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerpt);
+		  muoninnerEta_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innereta); 
+		  muoninnerPhi_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerphi); 
+
+		  muonchi2_cascade   -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerchi2 );
+		  muondxy_cascade    -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerdxy);
+		  muondz_cascade     -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerdz);
+		  muonPixHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerpixelHits);
+		  muonLayHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerlayerHits);
+		  muonPixLay_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(imu).innerpixelLayers);
+		  muonValHits_cascade-> FillWeighted( passhlt, weight, ev -> muons.at(imu).innervalidHits);
 
 
-	  muonPt_cascade       -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).pt );
-	  muonEta_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).eta);
-	  muonPhi_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).phi);
-	  muonEff_cascade      -> FillWeighted( passhlt, weight, 0.5                    );
 
-	  muoninnerPt_cascade  -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerphi); 
-
-	  muonchi2_cascade   -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerchi2 );
-	  muondxy_cascade    -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerdxy);
-	  muondz_cascade     -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerdz);
-	  muonPixHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits_cascade-> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innervalidHits);
+	  //}
+	  //if (passTkMu){
 
 
+		  muonPt_tkmu       -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).pt );
+		  muonEta_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).eta);
+		  muonPhi_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).phi);
+		  muonEff_tkmu      -> FillWeighted( passTkMu, weight, 0.5                    );
 
-	  muonPt_tkmu       -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).pt );
-	  muonEta_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).eta);
-	  muonPhi_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).phi);
-	  muonEff_tkmu      -> FillWeighted( passTkMu, weight, 0.5                    );
+		  muoninnerPt_tkmu  -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerpt);
+		  muoninnerEta_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innereta); 
+		  muoninnerPhi_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerphi); 
 
-	  muoninnerPt_tkmu  -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerphi); 
-
-	  muonchi2_tkmu   -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerchi2 );
-	  muondxy_tkmu    -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerdxy);
-	  muondz_tkmu     -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerdz);
-	  muonPixHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits_tkmu-> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innervalidHits);
+		  muonchi2_tkmu   -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerchi2 );
+		  muondxy_tkmu    -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerdxy);
+		  muondz_tkmu     -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerdz);
+		  muonPixHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerpixelHits);
+		  muonLayHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerlayerHits);
+		  muonPixLay_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innerpixelLayers);
+		  muonValHits_tkmu-> FillWeighted( passTkMu, weight, ev -> muons.at(imu).innervalidHits);
 
 
 	  nvtx           -> FillWeighted( pass, weight, ev -> nVtx             );
 	  nvtx_cascade   -> FillWeighted( passhlt, weight, ev -> nVtx             );
 	  nvtx_tkmu      -> FillWeighted( passTkMu, weight, ev -> nVtx             );
-	  if (fabs(ev -> muons.at(jmu).eta) <= 0.9){
-	    muonPt_barrel       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
-	    muoninnerPt_barrel  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_barrel -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_barrel -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+
+	  // BARREL//
+	  if (fabs(ev -> muons.at(imu).eta) <= 0.9){
+	    muonPt_barrel       -> FillWeighted( pass, weight, ev -> muons.at(imu).pt );
+	    muoninnerPt_barrel  -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_barrel -> FillWeighted( pass, weight, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_barrel -> FillWeighted( pass, weight, ev -> muons.at(imu).innerphi); 
 	    nvtx_barrel         -> FillWeighted( pass, weight, ev -> nVtx );
-	    muonchi2_barrel     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_barrel      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
-	    muondz_barrel       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);  
-	    muonValHits_barrel  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_barrel     -> FillWeighted( pass, weight, ev -> muons.at(imu).innerchi2 );
+	    muondxy_barrel      -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdxy);
+	    muondz_barrel       -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_barrel   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelLayers);  
+	    muonValHits_barrel  -> FillWeighted( pass, weight, ev -> muons.at(imu).innervalidHits);
 
 	  }
 
 	  // INTERMEDIATE REGION//
-	  if (fabs(ev -> muons.at(jmu).eta)>0.9 && fabs(ev -> muons.at(jmu).eta)<1.6){
-	    muonPt_int       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
-	    muoninnerPt_int  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_int -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_int -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	  if (fabs(ev -> muons.at(imu).eta)>0.9 && fabs(ev -> muons.at(imu).eta)<1.6){
+	    muonPt_int       -> FillWeighted( pass, weight, ev -> muons.at(imu).pt );
+	    muoninnerPt_int  -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_int -> FillWeighted( pass, weight, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_int -> FillWeighted( pass, weight, ev -> muons.at(imu).innerphi); 
 	    nvtx_int         -> FillWeighted( pass, weight, ev -> nVtx );
-	    muonchi2_int     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_int      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
-	    muondz_int       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);  
-	    muonValHits_int  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_int     -> FillWeighted( pass, weight, ev -> muons.at(imu).innerchi2 );
+	    muondxy_int      -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdxy);
+	    muondz_int       -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_int   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_int   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_int   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelLayers);  
+	    muonValHits_int  -> FillWeighted( pass, weight, ev -> muons.at(imu).innervalidHits);
 	  }
 	  // ENDCAP//
-	  if ( fabs(ev -> muons.at(jmu).eta)>=1.6){
-	    muonPt_endcap       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
-	    muoninnerPt_endcap  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_endcap -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_endcap -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	  if ( fabs(ev -> muons.at(imu).eta)>=1.6){
+	    muonPt_endcap       -> FillWeighted( pass, weight, ev -> muons.at(imu).pt );
+	    muoninnerPt_endcap  -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_endcap -> FillWeighted( pass, weight, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_endcap -> FillWeighted( pass, weight, ev -> muons.at(imu).innerphi); 
 	    nvtx_endcap         -> FillWeighted( pass, weight, ev -> nVtx );
-	    muonchi2_endcap     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_endcap      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
-	    muondz_endcap       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers); 
-	    muonValHits_endcap  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_endcap     -> FillWeighted( pass, weight, ev -> muons.at(imu).innerchi2 );
+	    muondxy_endcap      -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdxy);
+	    muondz_endcap       -> FillWeighted( pass, weight, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_endcap   -> FillWeighted( pass, weight, ev -> muons.at(imu).innerpixelLayers); 
+	    muonValHits_endcap  -> FillWeighted( pass, weight, ev -> muons.at(imu).innervalidHits);
 	   }
-	}
-    else{
-
-	  muonPt       -> Fill( pass, ev -> muons.at(jmu).pt );
-	  muonEta      -> Fill( pass, ev -> muons.at(jmu).eta);
-	  muonPhi      -> Fill( pass, ev -> muons.at(jmu).phi);
+	 }
+	else{
+	  muonPt       -> Fill( pass, ev -> muons.at(imu).pt );
+	  muonEta      -> Fill( pass, ev -> muons.at(imu).eta);
+	  muonPhi      -> Fill( pass, ev -> muons.at(imu).phi);
 	  muonEff      -> Fill( pass, 0.5                    );
 
-	  muoninnerPt  -> Fill( pass, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta -> Fill( pass, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi -> Fill( pass, ev -> muons.at(jmu).innerphi); 
+	  muoninnerPt  -> Fill( pass, ev -> muons.at(imu).innerpt);
+	  muoninnerEta -> Fill( pass, ev -> muons.at(imu).innereta); 
+	  muoninnerPhi -> Fill( pass, ev -> muons.at(imu).innerphi); 
 
-	  muonchi2   -> Fill( pass, ev -> muons.at(jmu).innerchi2 );
-	  muondxy    -> Fill( pass, ev -> muons.at(jmu).innerdxy);
-	  muondz     -> Fill( pass, ev -> muons.at(jmu).innerdz);
-	  muonPixHit -> Fill( pass, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit -> Fill( pass, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay -> Fill( pass, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits-> Fill( pass, ev -> muons.at(jmu).innervalidHits);
+	  muonchi2   -> Fill( pass, ev -> muons.at(imu).innerchi2 );
+	  muondxy    -> Fill( pass, ev -> muons.at(imu).innerdxy);
+	  muondz     -> Fill( pass, ev -> muons.at(imu).innerdz);
+	  muonPixHit -> Fill( pass, ev -> muons.at(imu).innerpixelHits);
+	  muonLayHit -> Fill( pass, ev -> muons.at(imu).innerlayerHits);
+	  muonPixLay -> Fill( pass, ev -> muons.at(imu).innerpixelLayers);
+	  muonValHits-> Fill( pass, ev -> muons.at(imu).innervalidHits);
+
+	  //if (passhlt){
+
+		  muonPt_cascade       -> Fill( passhlt, ev -> muons.at(imu).pt );
+		  muonEta_cascade      -> Fill( passhlt, ev -> muons.at(imu).eta);
+		  muonPhi_cascade      -> Fill( passhlt, ev -> muons.at(imu).phi);
+		  muonEff_cascade      -> Fill( passhlt, 0.5                    );
+
+		  muoninnerPt_cascade  -> Fill( passhlt, ev -> muons.at(imu).innerpt);
+		  muoninnerEta_cascade -> Fill( passhlt, ev -> muons.at(imu).innereta); 
+		  muoninnerPhi_cascade -> Fill( passhlt, ev -> muons.at(imu).innerphi); 
+
+		  muonchi2_cascade   -> Fill( passhlt, ev -> muons.at(imu).innerchi2 );
+		  muondxy_cascade    -> Fill( passhlt, ev -> muons.at(imu).innerdxy);
+		  muondz_cascade     -> Fill( passhlt, ev -> muons.at(imu).innerdz);
+		  muonPixHit_cascade -> Fill( passhlt, ev -> muons.at(imu).innerpixelHits);
+		  muonLayHit_cascade -> Fill( passhlt, ev -> muons.at(imu).innerlayerHits);
+		  muonPixLay_cascade -> Fill( passhlt, ev -> muons.at(imu).innerpixelLayers);
+		  muonValHits_cascade-> Fill( passhlt, ev -> muons.at(imu).innervalidHits);
 
 
-	  muonPt_cascade       -> Fill( passhlt, ev -> muons.at(jmu).pt );
-	  muonEta_cascade      -> Fill( passhlt, ev -> muons.at(jmu).eta);
-	  muonPhi_cascade      -> Fill( passhlt, ev -> muons.at(jmu).phi);
-	  muonEff_cascade      -> Fill( passhlt, 0.5                    );
 
-	  muoninnerPt_cascade  -> Fill( passhlt, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta_cascade -> Fill( passhlt, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi_cascade -> Fill( passhlt, ev -> muons.at(jmu).innerphi); 
-
-	  muonchi2_cascade   -> Fill( passhlt, ev -> muons.at(jmu).innerchi2 );
-	  muondxy_cascade    -> Fill( passhlt, ev -> muons.at(jmu).innerdxy);
-	  muondz_cascade     -> Fill( passhlt, ev -> muons.at(jmu).innerdz);
-	  muonPixHit_cascade -> Fill( passhlt, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit_cascade -> Fill( passhlt, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay_cascade -> Fill( passhlt, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits_cascade-> Fill( passhlt, ev -> muons.at(jmu).innervalidHits);
+	  //}
+	  //if (passTkMu){
 
 
+		  muonPt_tkmu       -> Fill( passTkMu, ev -> muons.at(imu).pt );
+		  muonEta_tkmu      -> Fill( passTkMu, ev -> muons.at(imu).eta);
+		  muonPhi_tkmu      -> Fill( passTkMu, ev -> muons.at(imu).phi);
+		  muonEff_tkmu      -> Fill( passTkMu, 0.5                    );
 
-	  muonPt_tkmu       -> Fill( passTkMu, ev -> muons.at(jmu).pt );
-	  muonEta_tkmu      -> Fill( passTkMu, ev -> muons.at(jmu).eta);
-	  muonPhi_tkmu      -> Fill( passTkMu, ev -> muons.at(jmu).phi);
-	  muonEff_tkmu      -> Fill( passTkMu, 0.5                    );
+		  muoninnerPt_tkmu  -> Fill( passTkMu, ev -> muons.at(imu).innerpt);
+		  muoninnerEta_tkmu -> Fill( passTkMu, ev -> muons.at(imu).innereta); 
+		  muoninnerPhi_tkmu -> Fill( passTkMu, ev -> muons.at(imu).innerphi); 
 
-	  muoninnerPt_tkmu  -> Fill( passTkMu, ev -> muons.at(jmu).innerpt);
-	  muoninnerEta_tkmu -> Fill( passTkMu, ev -> muons.at(jmu).innereta); 
-	  muoninnerPhi_tkmu -> Fill( passTkMu, ev -> muons.at(jmu).innerphi); 
-
-	  muonchi2_tkmu   -> Fill( passTkMu, ev -> muons.at(jmu).innerchi2 );
-	  muondxy_tkmu    -> Fill( passTkMu, ev -> muons.at(jmu).innerdxy);
-	  muondz_tkmu     -> Fill( passTkMu, ev -> muons.at(jmu).innerdz);
-	  muonPixHit_tkmu -> Fill( passTkMu, ev -> muons.at(jmu).innerpixelHits);
-	  muonLayHit_tkmu -> Fill( passTkMu, ev -> muons.at(jmu).innerlayerHits);
-	  muonPixLay_tkmu -> Fill( passTkMu, ev -> muons.at(jmu).innerpixelLayers);
-	  muonValHits_tkmu-> Fill( passTkMu, ev -> muons.at(jmu).innervalidHits);
+		  muonchi2_tkmu   -> Fill( passTkMu, ev -> muons.at(imu).innerchi2 );
+		  muondxy_tkmu    -> Fill( passTkMu, ev -> muons.at(imu).innerdxy);
+		  muondz_tkmu     -> Fill( passTkMu, ev -> muons.at(imu).innerdz);
+		  muonPixHit_tkmu -> Fill( passTkMu, ev -> muons.at(imu).innerpixelHits);
+		  muonLayHit_tkmu -> Fill( passTkMu, ev -> muons.at(imu).innerlayerHits);
+		  muonPixLay_tkmu -> Fill( passTkMu, ev -> muons.at(imu).innerpixelLayers);
+		  muonValHits_tkmu-> Fill( passTkMu, ev -> muons.at(imu).innervalidHits);
 
 
 	  nvtx           -> Fill( pass, ev -> nVtx             );
 	  nvtx_cascade   -> Fill( passhlt, ev -> nVtx             );
 	  nvtx_tkmu      -> Fill( passTkMu, ev -> nVtx             );
-	  if (fabs(ev -> muons.at(jmu).eta) <= 0.9){
-	    muonPt_barrel       -> Fill( pass, ev -> muons.at(jmu).pt );
-	    muoninnerPt_barrel  -> Fill( pass, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_barrel -> Fill( pass, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_barrel -> Fill( pass, ev -> muons.at(jmu).innerphi); 
+
+	  // BARREL//
+	  if (fabs(ev -> muons.at(imu).eta) <= 0.9){
+	    muonPt_barrel       -> Fill( pass, ev -> muons.at(imu).pt );
+	    muoninnerPt_barrel  -> Fill( pass, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_barrel -> Fill( pass, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_barrel -> Fill( pass, ev -> muons.at(imu).innerphi); 
 	    nvtx_barrel         -> Fill( pass, ev -> nVtx );
-	    muonchi2_barrel     -> Fill( pass, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_barrel      -> Fill( pass, ev -> muons.at(jmu).innerdxy);
-	    muondz_barrel       -> Fill( pass, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_barrel   -> Fill( pass, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_barrel   -> Fill( pass, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_barrel   -> Fill( pass, ev -> muons.at(jmu).innerpixelLayers);  
-	    muonValHits_barrel  -> Fill( pass, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_barrel     -> Fill( pass, ev -> muons.at(imu).innerchi2 );
+	    muondxy_barrel      -> Fill( pass, ev -> muons.at(imu).innerdxy);
+	    muondz_barrel       -> Fill( pass, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_barrel   -> Fill( pass, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_barrel   -> Fill( pass, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_barrel   -> Fill( pass, ev -> muons.at(imu).innerpixelLayers);  
+	    muonValHits_barrel  -> Fill( pass, ev -> muons.at(imu).innervalidHits);
 
 	  }
 
 	  // INTERMEDIATE REGION//
-	  if (fabs(ev -> muons.at(jmu).eta)>0.9 && fabs(ev -> muons.at(jmu).eta)<1.6){
-	    muonPt_int       -> Fill( pass, ev -> muons.at(jmu).pt );
-	    muoninnerPt_int  -> Fill( pass, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_int -> Fill( pass, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_int -> Fill( pass, ev -> muons.at(jmu).innerphi); 
+	  if (fabs(ev -> muons.at(imu).eta)>0.9 && fabs(ev -> muons.at(imu).eta)<1.6){
+	    muonPt_int       -> Fill( pass, ev -> muons.at(imu).pt );
+	    muoninnerPt_int  -> Fill( pass, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_int -> Fill( pass, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_int -> Fill( pass, ev -> muons.at(imu).innerphi); 
 	    nvtx_int         -> Fill( pass, ev -> nVtx );
-	    muonchi2_int     -> Fill( pass, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_int      -> Fill( pass, ev -> muons.at(jmu).innerdxy);
-	    muondz_int       -> Fill( pass, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_int   -> Fill( pass, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_int   -> Fill( pass, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_int   -> Fill( pass, ev -> muons.at(jmu).innerpixelLayers);  
-	    muonValHits_int  -> Fill( pass, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_int     -> Fill( pass, ev -> muons.at(imu).innerchi2 );
+	    muondxy_int      -> Fill( pass, ev -> muons.at(imu).innerdxy);
+	    muondz_int       -> Fill( pass, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_int   -> Fill( pass, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_int   -> Fill( pass, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_int   -> Fill( pass, ev -> muons.at(imu).innerpixelLayers);  
+	    muonValHits_int  -> Fill( pass, ev -> muons.at(imu).innervalidHits);
 	  }
 	  // ENDCAP//
-	  if ( fabs(ev -> muons.at(jmu).eta)>=1.6){
-	    muonPt_endcap       -> Fill( pass, ev -> muons.at(jmu).pt );
-	    muoninnerPt_endcap  -> Fill( pass, ev -> muons.at(jmu).innerpt); 
-	    muoninnerEta_endcap -> Fill( pass, ev -> muons.at(jmu).innereta); 
-	    muoninnerPhi_endcap -> Fill( pass, ev -> muons.at(jmu).innerphi); 
+	  if ( fabs(ev -> muons.at(imu).eta)>=1.6){
+	    muonPt_endcap       -> Fill( pass, ev -> muons.at(imu).pt );
+	    muoninnerPt_endcap  -> Fill( pass, ev -> muons.at(imu).innerpt); 
+	    muoninnerEta_endcap -> Fill( pass, ev -> muons.at(imu).innereta); 
+	    muoninnerPhi_endcap -> Fill( pass, ev -> muons.at(imu).innerphi); 
 	    nvtx_endcap         -> Fill( pass, ev -> nVtx );
-	    muonchi2_endcap     -> Fill( pass, ev -> muons.at(jmu).innerchi2 );
-	    muondxy_endcap      -> Fill( pass, ev -> muons.at(jmu).innerdxy);
-	    muondz_endcap       -> Fill( pass, ev -> muons.at(jmu).innerdz); 
-	    muonPixHit_endcap   -> Fill( pass, ev -> muons.at(jmu).innerpixelHits); 
-	    muonLayHit_endcap   -> Fill( pass, ev -> muons.at(jmu).innerlayerHits); 
-	    muonPixLay_endcap   -> Fill( pass, ev -> muons.at(jmu).innerpixelLayers); 
-	    muonValHits_endcap  -> Fill( pass, ev -> muons.at(jmu).innervalidHits);
+	    muonchi2_endcap     -> Fill( pass, ev -> muons.at(imu).innerchi2 );
+	    muondxy_endcap      -> Fill( pass, ev -> muons.at(imu).innerdxy);
+	    muondz_endcap       -> Fill( pass, ev -> muons.at(imu).innerdz); 
+	    muonPixHit_endcap   -> Fill( pass, ev -> muons.at(imu).innerpixelHits); 
+	    muonLayHit_endcap   -> Fill( pass, ev -> muons.at(imu).innerlayerHits); 
+	    muonPixLay_endcap   -> Fill( pass, ev -> muons.at(imu).innerpixelLayers); 
+	    muonValHits_endcap  -> Fill( pass, ev -> muons.at(imu).innervalidHits);
 	   }
 
 	}
-    }
-    }
+	} // nmuons
     }  
 
  
@@ -817,8 +811,8 @@ bool matchMuon(MuonCand mu, std::vector<HLTObjCand> toc, std::string tagFilterNa
   float minDR = 0.1; 
   if (tagFilterName.find("L1fL1") != std::string::npos) minDR = 0.3;
   float theDR = 100;
-  for ( std::vector<HLTObjCand>::const_iterator it = toc.begin(); it != toc.end(); ++it ) {
-    if ( it->filterTag.compare(tagFilterName) == 0) {
+  for ( std::vector<HLTObjCand>::const_iterator it = toc.begin(); it != toc.end(); ++it ) { 
+    if ( it->filterTag.compare(tagFilterName) == 0) { 
       theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi); 
       if (theDR < minDR){
         minDR = theDR;
@@ -855,30 +849,23 @@ bool selectMuon(MuonCand mu){
 
 
 //select the probe muon
-bool selectProbeMuon(MuonCand mu, MuonCand tagMu, TH1F* dimuon_mass){
+bool selectProbeMuon(MuonCand mu, std::vector<GenParticleCand> genParticles){
   
-  if (mu.pt == tagMu.pt  && 
-      mu.pt == tagMu.eta &&
-      mu.pt == tagMu.phi ) 
-    return false;
-  if ( deltaR(tagMu.eta,tagMu.phi, mu.eta, mu.phi) <= 0.3 ) return false; 
-  if (!( mu.pt          > 0  )) return false; 
-  if (!( fabs(mu.eta)  < 2.4 )) return false; 
-  if (!( mu.isTight    == 1  )) return false; 
-  if (mu.charge * tagMu.charge > 0) return false;
-  //add isolation cut
-  float offlineiso04 = mu.chargedDep_dR04 + std::max(0., mu.photonDep_dR04 + mu.neutralDep_dR04 - 0.5*mu.puPt_dR04);
-  offlineiso04       = offlineiso04 / mu.pt;
-  if (offlineiso04   > offlineIsoCut) return false; 
-  
-  TLorentzVector mu1, mu2;
-  mu1.SetPtEtaPhiM (mu.pt   , mu.eta   , mu.phi   , muonmass);
-  mu2.SetPtEtaPhiM (tagMu.pt, tagMu.eta, tagMu.phi, muonmass);
-  double mumumass = (mu1 + mu2).M();
-  dimuon_mass -> Fill(mumumass); 
-  if (! (mumumass > 81. && mumumass < 101. )) return false;
-  
-  return true;
+
+  bool match = false;
+  float minDR = 0.1;
+  float theDR = 100;
+  for ( std::vector<GenParticleCand>::const_iterator it = genParticles.begin(); it != genParticles.end(); ++it ) {
+    theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi);
+    if (theDR < minDR){
+      minDR = theDR;
+      match = true;
+    }
+  }
+  return match;
+
+
+ 
 }
 
 //*********************************************************************************************************************
@@ -940,7 +927,7 @@ bool matchMuonWithL3(MuonCand mu, std::vector<HLTMuonCand> L3cands){
 //  L1MuonCand theL1;
 //  theL1.pt        = -1000;
 //  theL1.eta       = -1000;
-//  theL1.phi       = -1000;
+//  theL0.phi       = -1000;
   
 //  for ( std::vector<L1MuonCand>::const_iterator it = L1cands.begin(); it != L1cands.end(); ++it ) {
 //    theDR = deltaR(it -> eta, it -> phi, mu.eta, mu.phi);

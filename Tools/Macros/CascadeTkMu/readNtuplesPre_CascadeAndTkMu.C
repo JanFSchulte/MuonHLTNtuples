@@ -45,6 +45,132 @@ double eta_bins[16] = {-2.4, -2.1, -1.6, -1.2, -1.04, -0.9, -0.3, -0.2,  0.2, 0.
 double iso_bins[12] = { 0  , 0.02, 0.04, 0.06, 0.08,  0.1, 0.12, 0.16, 0.2, 0.3, 0.6, 1   };
 double offlineIsoCut = 0.15;
 
+
+double weights[120] = {
+0,
+0,
+0,
+0,
+0,
+0,
+4226.67,
+1823.04,
+787.477,
+486.122,
+211.872,
+118.316,
+63.4982,
+37.9888,
+23.0261,
+14.9799,
+10.2863,
+7.27979,
+5.34811,
+4.10273,
+3.26837,
+2.64915,
+2.23506,
+1.93052,
+1.69373,
+1.51683,
+1.36889,
+1.26224,
+1.16777,
+1.08684,
+1.01703,
+0.939873,
+0.876546,
+0.810688,
+0.748066,
+0.685921,
+0.625705,
+0.571451,
+0.516831,
+0.471159,
+0.42725,
+0.387711,
+0.351214,
+0.32003,
+0.290533,
+0.267097,
+0.248765,
+0.234077,
+0.2196,
+0.205689,
+0.197416,
+0.191746,
+0.183693,
+0.175746,
+0.175846,
+0.176275,
+0.173514,
+0.172328,
+0.175078,
+0.181157,
+0.182818,
+0.177181,
+0.1876,
+0.196788,
+0.192088,
+0.197586,
+0.213389,
+0.212861,
+0.219671,
+0.216015,
+0.237371,
+0.227794,
+0.216879,
+0.261989,
+0.28839,
+0.283026,
+0.264886,
+0.267633,
+0.315637,
+0.295262,
+0.266044,
+0.337673,
+0.35408,
+0.311411,
+0.369371,
+0.394094,
+0.382813,
+0.290877,
+0.582273,
+0.413041,
+0.433895,
+0.446835,
+0.618919,
+0.29157,
+0.669854,
+0.714608,
+0.672572,
+0.423471,
+0.63520,
+0.63520,
+0.55436,
+1.3451,
+0.63520,
+0.557742,
+0.680579,
+0.846942,
+0.190562,
+1.5245,
+2.11736,
+0.423471,
+0.879517,
+0.635207,
+1.27041,
+2.85843,
+1.90562,
+2.28674,
+0,
+0.95281,
+0,
+7.62248,
+};
+
+
+
 // ******************************************
 //                                          *
 //                                          *
@@ -52,12 +178,12 @@ std::string hltname        = "HLT_IsoMu27_v10";
 std::string thepassfilter  = L3filter;
 std::string the2016filter  = "hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07::HLT";
 std::string theprobefilter = L1filter; 
-float offlinePtCut         = 30.; 
+float offlinePtCut         = 24.; 
 //                                          *
 //                                          *
 // ******************************************
 
-void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_"){
+void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/muonNtupleCorrCasTk.root",*/ std::string effmeasured="CascadeORTkMu_", bool isMC=false){
 
   ///eos/uscms/store/user/bmahakud/ProductionCasTest_v1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ProductionCasTest_v1/181205_133338/0000/NtupleTMP.root
   ///eos/uscms/store/user/bmahakud/TestCascade_LPC_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TestCascade_LPC_v3/181203_142416/0000/muonNtupleCasNew.root
@@ -69,8 +195,8 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 
   //Create histograms  
   TH1F* dimuon_mass             = new TH1F("h_dimuon_mass"          ,"dimuon_mass"      , 1500,  0,  150 );
-  TH2F* dimuon_mass_vs_pt_probePass       = new TH2F("h_dimuon_mass_vs_pt_probePass"    ,"dimuon mass vs pt" ,1500,  0,  150, 19, pt_bins );
-  TH2F* dimuon_mass_vs_pt_probeFail       = new TH2F("h_dimuon_mass_vs_pt_probeFail"    ,"dimuon mass vs pt" ,1500,  0,  150, 19, pt_bins );
+  TH2F* dimuon_mass_vs_pt_probePass       = new TH2F("h_dimuon_mass_vs_pt_probePass"    ,"dimuon mass vs pt" ,1500,  0,  150, 200, 0,  2000 );
+  TH2F* dimuon_mass_vs_pt_probeFail       = new TH2F("h_dimuon_mass_vs_pt_probeFail"    ,"dimuon mass vs pt" ,1500,  0,  150, 200, 0, 2000 );
 
 
   TH1F* tagiso                  = new TH1F("h_tagiso"               ,"tagiso"           ,  100,  0,  1   );
@@ -190,6 +316,7 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
   TEfficiency* failingMuonPhi   = new TEfficiency("failingMuonPhi"  ,"failingMuonPhi"   ,   20, -3.2, 3.2);
   TEfficiency* failingMuonEff   = new TEfficiency("failingMuonEff"  ,"failingMuonEff"   ,   1 ,   0., 1.0);
 
+  TH1F* ProbePt                 = new TH1F("h_ProbePt"              ,"ProbeMuonPt"      ,10000, 0, 1000 );
   TH1F* PassingProbePt          = new TH1F("h_PassingProbePt"       ,"PassingMuonPt"    ,  19,  pt_bins );
   TH1F* PassingProbeEta         = new TH1F("h_PassingProbeEta"      ,"PassingMuonEta"   ,  15, eta_bins );
   TH1F* PassingProbePhi         = new TH1F("h_PassingProbePhi"      ,"PassingMuonPhi"   ,  20, -3.2, 3.2);
@@ -253,7 +380,9 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
     {
       Int_t IgetEvent   = tree   -> GetEvent(eventNo); 
       printProgBar((int)(eventNo*100./nentries));
-    
+      double weight = 1;
+      if (isMC) weight = weights[ev -> nVtx];
+ 
       unsigned int nmuons = ev->muons.size();
       if (nmuons < 2) continue;
       unsigned int nhltmuons = ev->hltmuons.size(); 
@@ -274,7 +403,6 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 	  // select the probe muon
 	  if (!selectProbeMuon(ev -> muons.at(jmu), ev -> muons.at(imu), dimuon_mass)) continue;
 	   //cout<< "probe muon"<< endl;
-
 	  if (!doingL1 && !(matchMuon(ev -> muons.at(jmu), ev -> hlt.objects, theprobefilter))) continue;
 
 	  //PRE FILTER
@@ -292,7 +420,7 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 	  //	  if ( matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons)) pass=true;
 
 	  muonPtTurnOn -> Fill( pass, ev -> muons.at(jmu).pt ); 
- 
+	  ProbePt->Fill(ev -> muons.at(jmu).pt); 
 	  // now require pT cut: 
 	  if (ev -> muons.at(jmu).pt < offlinePtCut) continue; 
 
@@ -301,23 +429,123 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 	  mu2.SetPtEtaPhiM (ev->muons.at(jmu).pt,ev->muons.at(jmu).eta,ev->muons.at(jmu).phi, muonmass);
 	  double mumumass = (mu1 + mu2).M();
 
-         if (pass) dimuon_mass_vs_pt_probePass->Fill(mumumass, ev->muons.at(jmu).pt);
+         if (passTkMu) dimuon_mass_vs_pt_probePass->Fill(mumumass, ev->muons.at(jmu).pt);
 	 else dimuon_mass_vs_pt_probeFail->Fill(mumumass,ev->muons.at(jmu).pt);
 
+	 if(isMC){
+	  muonPt       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
+	  muonEta      -> FillWeighted( pass, weight, ev -> muons.at(jmu).eta);
+	  muonPhi      -> FillWeighted( pass, weight, ev -> muons.at(jmu).phi);
+	  muonEff      -> FillWeighted( pass, weight, 0.5                    );
 
-	// if (pass) { 
-	  //   PassingProbePt  -> Fill( ev -> muons.at(jmu).pt  );
-	  //   PassingProbeEta -> Fill( ev -> muons.at(jmu).eta );
-	  //   PassingProbePhi -> Fill( ev -> muons.at(jmu).phi );
-	  //   PassingProbeMll -> Fill( mumumass                );
+	  muoninnerPt  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt);
+	  muoninnerEta -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
+	  muoninnerPhi -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
 
-	  // }	      
-	  // else {       
-	  //   FailingProbePt  -> Fill( ev -> muons.at(jmu).pt  );
-	  //   FailingProbeEta -> Fill( ev -> muons.at(jmu).eta );
-	  //   FailingProbePhi -> Fill( ev -> muons.at(jmu).phi );
-	  //   FailingProbeMll -> Fill( mumumass                );
-	  // }
+	  muonchi2   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
+	  muondxy    -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
+	  muondz     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz);
+	  muonPixHit -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits);
+	  muonLayHit -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits);
+	  muonPixLay -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);
+	  muonValHits-> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+
+	  //if (passhlt){
+
+		  muonPt_cascade       -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).pt );
+		  muonEta_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).eta);
+		  muonPhi_cascade      -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).phi);
+		  muonEff_cascade      -> FillWeighted( passhlt, weight, 0.5                    );
+
+		  muoninnerPt_cascade  -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpt);
+		  muoninnerEta_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innereta); 
+		  muoninnerPhi_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerphi); 
+
+		  muonchi2_cascade   -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerchi2 );
+		  muondxy_cascade    -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerdxy);
+		  muondz_cascade     -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerdz);
+		  muonPixHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpixelHits);
+		  muonLayHit_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerlayerHits);
+		  muonPixLay_cascade -> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innerpixelLayers);
+		  muonValHits_cascade-> FillWeighted( passhlt, weight, ev -> muons.at(jmu).innervalidHits);
+
+
+
+	  //}
+	  //if (passTkMu){
+
+
+		  muonPt_tkmu       -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).pt );
+		  muonEta_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).eta);
+		  muonPhi_tkmu      -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).phi);
+		  muonEff_tkmu      -> FillWeighted( passTkMu, weight, 0.5                    );
+
+		  muoninnerPt_tkmu  -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpt);
+		  muoninnerEta_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innereta); 
+		  muoninnerPhi_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerphi); 
+
+		  muonchi2_tkmu   -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerchi2 );
+		  muondxy_tkmu    -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerdxy);
+		  muondz_tkmu     -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerdz);
+		  muonPixHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpixelHits);
+		  muonLayHit_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerlayerHits);
+		  muonPixLay_tkmu -> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innerpixelLayers);
+		  muonValHits_tkmu-> FillWeighted( passTkMu, weight, ev -> muons.at(jmu).innervalidHits);
+
+
+	  nvtx           -> FillWeighted( pass, weight, ev -> nVtx             );
+	  nvtx_cascade   -> FillWeighted( passhlt, weight, ev -> nVtx             );
+	  nvtx_tkmu      -> FillWeighted( passTkMu, weight, ev -> nVtx             );
+
+	  // BARREL//
+	  if (fabs(ev -> muons.at(jmu).eta) <= 0.9){
+	    muonPt_barrel       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
+	    muoninnerPt_barrel  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
+	    muoninnerEta_barrel -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
+	    muoninnerPhi_barrel -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	    nvtx_barrel         -> FillWeighted( pass, weight, ev -> nVtx );
+	    muonchi2_barrel     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
+	    muondxy_barrel      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
+	    muondz_barrel       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
+	    muonPixHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
+	    muonLayHit_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
+	    muonPixLay_barrel   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);  
+	    muonValHits_barrel  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+
+	  }
+
+	  // INTERMEDIATE REGION//
+	  if (fabs(ev -> muons.at(jmu).eta)>0.9 && fabs(ev -> muons.at(jmu).eta)<1.6){
+	    muonPt_int       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
+	    muoninnerPt_int  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
+	    muoninnerEta_int -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
+	    muoninnerPhi_int -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	    nvtx_int         -> FillWeighted( pass, weight, ev -> nVtx );
+	    muonchi2_int     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
+	    muondxy_int      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
+	    muondz_int       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
+	    muonPixHit_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
+	    muonLayHit_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
+	    muonPixLay_int   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers);  
+	    muonValHits_int  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	  }
+	  // ENDCAP//
+	  if ( fabs(ev -> muons.at(jmu).eta)>=1.6){
+	    muonPt_endcap       -> FillWeighted( pass, weight, ev -> muons.at(jmu).pt );
+	    muoninnerPt_endcap  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpt); 
+	    muoninnerEta_endcap -> FillWeighted( pass, weight, ev -> muons.at(jmu).innereta); 
+	    muoninnerPhi_endcap -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerphi); 
+	    nvtx_endcap         -> FillWeighted( pass, weight, ev -> nVtx );
+	    muonchi2_endcap     -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerchi2 );
+	    muondxy_endcap      -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdxy);
+	    muondz_endcap       -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerdz); 
+	    muonPixHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelHits); 
+	    muonLayHit_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerlayerHits); 
+	    muonPixLay_endcap   -> FillWeighted( pass, weight, ev -> muons.at(jmu).innerpixelLayers); 
+	    muonValHits_endcap  -> FillWeighted( pass, weight, ev -> muons.at(jmu).innervalidHits);
+	   }
+	 }
+	else{
 	  muonPt       -> Fill( pass, ev -> muons.at(jmu).pt );
 	  muonEta      -> Fill( pass, ev -> muons.at(jmu).eta);
 	  muonPhi      -> Fill( pass, ev -> muons.at(jmu).phi);
@@ -378,22 +606,9 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 		  muonValHits_tkmu-> Fill( passTkMu, ev -> muons.at(jmu).innervalidHits);
 
 
-	 // }
-	  // muonOver16Pt  -> Fill( pass && matchWith2016, ev -> muons.at(jmu).pt );
-	  // muonOver16Eta -> Fill( pass && matchWith2016, ev -> muons.at(jmu).eta);
-	  // muonOver16Phi -> Fill( pass && matchWith2016, ev -> muons.at(jmu).phi);
-	  // muonOver16Eff -> Fill( pass && matchWith2016, 0.5                    );
-
 	  nvtx           -> Fill( pass, ev -> nVtx             );
 	  nvtx_cascade   -> Fill( passhlt, ev -> nVtx             );
 	  nvtx_tkmu      -> Fill( passTkMu, ev -> nVtx             );
-	  // failingMuonPt  -> Fill( !pass, ev -> muons.at(jmu).pt );
-	  // failingMuonEta -> Fill( !pass, ev -> muons.at(jmu).eta);
-	  // failingMuonPhi -> Fill( !pass, ev -> muons.at(jmu).phi);
-	  // failingMuonEff -> Fill( !pass, 0.5                    );
-
-	  // if ( (ev -> muons.at(jmu).innerpixelHits) <= 3) pixhitcount++; 
-
 
 	  // BARREL//
 	  if (fabs(ev -> muons.at(jmu).eta) <= 0.9){
@@ -443,41 +658,9 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
 	    muonValHits_endcap  -> Fill( pass, ev -> muons.at(jmu).innervalidHits);
 	   }
 
-
-	  // /// MATCH to TRIGGER objects	 
-	  // pass=false;
-	  // if (matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons) || matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons)) pass = true; 
-	  // hltmuonPt       -> Fill( pass, ev -> muons.at(jmu).pt ); 
-	  // hltmuonEta      -> Fill( pass, ev -> muons.at(jmu).eta);
-	  // hltmuonPhi      -> Fill( pass, ev -> muons.at(jmu).phi);
-	  // hltmuonEff      -> Fill( pass, 0.5                    );
-
-
-	  // /// MATCH to TRIGGER objects	 
-	  // pass=false;
-	  // if (matchMuonWithL3(ev->muons.at(jmu),ev->tkmuons)) pass = true;
-	  // hltmuonFromL2Pt       -> Fill( pass, ev -> muons.at(jmu).pt );
-	  // hltmuonFromL2Eta      -> Fill( pass, ev -> muons.at(jmu).eta);
-	  // hltmuonFromL2Phi      -> Fill( pass, ev -> muons.at(jmu).phi);
-	  // hltmuonFromL2Eff      -> Fill( pass, 0.5                    );
+	}
 	} // nmuons
       }
-      // NOW FOR DIMUONS:
-      // for (int imu = 0; imu < nmuons; imu++){
-      // 	if (!selectMuon(ev -> muons.at(imu))) continue; 
-      
-      // 	for (int jmu = imu+1; jmu < nmuons; jmu++){
-      // 	  if (!selectMuon(ev -> muons.at(jmu))) continue; 
-      // 	  bool pass = false;
-      // 	  if (matchMuonWithL3(ev->muons.at(jmu),ev->hltmuons) && matchMuonWithL3(ev->muons.at(imu),ev->hltmuons)) pass = true;
-      // 	  diMuonPt       -> Fill( pass, ev -> muons.at(imu).pt ); 
-      // 	  diMuonEta      -> Fill( pass, ev -> muons.at(imu).eta);
-      // 	  diMuonPhi      -> Fill( pass, ev -> muons.at(imu).phi);
-      // 	  diMuonPt       -> Fill( pass, ev -> muons.at(jmu).pt );
-      // 	  diMuonEta      -> Fill( pass, ev -> muons.at(jmu).eta);
-      // 	  diMuonPhi      -> Fill( pass, ev -> muons.at(jmu).phi);
-      // 	}
-      // }
     }  
 
  
@@ -589,6 +772,8 @@ void readNtuplesPre_CascadeAndTkMu(TString inputfilename="files/files/",/*/eos/u
   failingMuonPhi  -> Write();
   failingMuonEff  -> Write();
 
+  ProbePt->Write();
+
   PassingProbePt  -> Write();
   PassingProbeEta -> Write();
   PassingProbePhi -> Write();
@@ -630,7 +815,7 @@ bool matchMuon(MuonCand mu, std::vector<HLTObjCand> toc, std::string tagFilterNa
   int ntoc = toc.size();
 
   float minDR = 0.1; 
-  if (tagFilterName.find("L1fL1") != std::string::npos) minDR = 1.0;
+  if (tagFilterName.find("L1fL1") != std::string::npos) minDR = 0.3;
   float theDR = 100;
   for ( std::vector<HLTObjCand>::const_iterator it = toc.begin(); it != toc.end(); ++it ) { 
     if ( it->filterTag.compare(tagFilterName) == 0) { 
@@ -647,7 +832,7 @@ bool matchMuon(MuonCand mu, std::vector<HLTObjCand> toc, std::string tagFilterNa
 
 bool selectTagMuon(MuonCand mu, TH1F* tagh){
   
-  if (!( mu.pt         > 27  )) return false; 
+  if (!( mu.pt         > 26  )) return false; 
   if (!( fabs(mu.eta)  < 2.4 )) return false; 
   if (!( mu.isTight    == 1  )) return false; 
   
@@ -676,7 +861,7 @@ bool selectProbeMuon(MuonCand mu, MuonCand tagMu, TH1F* dimuon_mass){
       mu.pt == tagMu.eta &&
       mu.pt == tagMu.phi ) 
     return false;
-  if ( deltaR(tagMu.eta,tagMu.phi, mu.eta, mu.phi) <= 0.5 ) return false; 
+  if ( deltaR(tagMu.eta,tagMu.phi, mu.eta, mu.phi) <= 0.3 ) return false; 
   if (!( mu.pt          > 0  )) return false; 
   if (!( fabs(mu.eta)  < 2.4 )) return false; 
   if (!( mu.isTight    == 1  )) return false; 
@@ -691,7 +876,7 @@ bool selectProbeMuon(MuonCand mu, MuonCand tagMu, TH1F* dimuon_mass){
   mu2.SetPtEtaPhiM (tagMu.pt, tagMu.eta, tagMu.phi, muonmass);
   double mumumass = (mu1 + mu2).M();
   dimuon_mass -> Fill(mumumass); 
-  if (! (mumumass > 81. && mumumass < 101. )) return false;
+//  if (! (mumumass > 81. && mumumass < 101. )) return false;
   
   return true;
 }
